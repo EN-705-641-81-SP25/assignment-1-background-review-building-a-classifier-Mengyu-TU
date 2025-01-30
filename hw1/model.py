@@ -83,11 +83,14 @@ def create_tensor_dataset(raw_data: Dict[str, List[Union[int, str]]],
 
         # TODO: complete the for loop to featurize each sentence
         # only add the feature and label to the list if the feature is not None
-
+        feature = featurize(text, embeddings)
+        if feature is not None:
+            all_features.append(feature)
+            all_labels.append(label)
         # your code ends here
 
     # stack all features and labels into two single tensors and create a TensorDataset
-    features_tensor = torch.stack(all_features)
+    features_tensor = torch.stack(all_features) # take a sequence (like a list) of tensors and stack them into a single tensor
     labels_tensor = torch.tensor(all_labels, dtype=torch.long)
 
     return TensorDataset(features_tensor, labels_tensor)
@@ -115,7 +118,7 @@ class SentimentClassifier(nn.Module):
 
         # TODO: define the linear layer
         # Hint: follow the hints in the pdf description
-
+        self.linear = nn.Linear(self.embed_dim, self.num_classes)
         # your code ends here
 
         self.loss = nn.CrossEntropyLoss(reduction='mean')
@@ -123,7 +126,7 @@ class SentimentClassifier(nn.Module):
     def forward(self, inp):
         # TODO: complete the forward function
         # Hint: follow the hints in the pdf description
-
+        logits = self.linear(inp)
         # your code ends here
 
         return logits
