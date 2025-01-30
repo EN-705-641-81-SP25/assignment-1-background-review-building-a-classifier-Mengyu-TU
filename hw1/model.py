@@ -74,6 +74,7 @@ def featurize(sentence: str, embeddings: gensim.models.keyedvectors.KeyedVectors
     # A torch tensor of shape (embed_dim,) - the average word embedding of the sentence
     # Hint: follow the hints in the pdf description
 
+    return None if len(vectors) == 0 else torch.from_numpy(np.mean(np.array(vectors), axis=0)) # Using axis=0 averages across the words
 
 def create_tensor_dataset(raw_data: Dict[str, List[Union[int, str]]],
                           embeddings: gensim.models.keyedvectors.KeyedVectors) -> TensorDataset:
